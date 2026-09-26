@@ -2,8 +2,7 @@
 # AUTORES MATÍAS MARTIN E IVO DI MARCO
 # LINK DEL REPOSITORIO DE GITHUB: https://github.com/Matiasmartin828/Laboratorio-5.git
 
-import tkinter as tk                                                                            #Librerías
-import numpy as np
+import numpy as np                                                                              #Librerías
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -39,4 +38,13 @@ ax.set_xlabel('Tiempo', fontsize=11)                                            
 ax.set_ylabel('Magnitud', fontsize=11)
 plt.tight_layout()
 plt.show()
-
+resumen_diario = dataframe.resample('D').agg(temperatura_promedio=('temperatura_C', 'mean'),    #Creo el resumen diario de los datos, agrupando por día y calculando la temperatura promedio, máxima y mínima, el voltaje promedio y mínimo, y la cantidad de alertas
+        temperatura_maxima=('temperatura_C', 'max'),
+        temperatura_minima=('temperatura_C', 'min'),
+        voltaje_promedio=('voltaje_bateria_V', 'mean'),
+        voltaje_minimo=('voltaje_bateria_V', 'min'), 
+        cantidad_alertas=('alerta', 'sum')).round(2)                                            #Redondeo los valores del resumen diario a dos decimales
+print("\nResumen Diario:")
+print(resumen_diario)
+resumen_diario.to_excel('Resumen diario.xlsx', sheet_name='Resumen diario')                     #Exporto el DataFrame a un archivo excel
+print('\nEl archivo "Resumen diario" se ha generado correctamente.') 
